@@ -1,62 +1,68 @@
+var fs = require("fs");
+var friends = require(__dirname + "/../data/friends.js");
 
-
-// Get all friends
-app.get("/api/friends", function(req, res) {
-    res.json(friends);
-});
-
-// Create New Friend - takes in JSON input
-app.post("/api/friends", function(req, res) {
-    // req.body hosts is equal to the JSON post sent from the user
-    // This works because of our body-parser middleware
-    var newFriend = req.body;
-
-    console.log("[apiRoutes.js] " + newFriend + " (" + __dirname + ")");
-
-    friends.push(newFriend);
-    makeFriendsFile();
-
-    res.json(findCompatibleFriend(newFriend));
-});
-
-function makeFriendsFile() {
-	var fileName = "../data/friends.js";
-
-	fs.writeFile(fileName, "var friends = ", function (err) {
-		if (err) throw err;
-		fs.appendFile(fileName, JSON.stringify(friends, null, 4) + ";", function (err) {
-			if (err) throw err;
-			fs.appendFile(fileName, "\n\nmodule.exports = friends;", function (err) {
-				if (err) throw err;
-			});    
-		});
+module.exports = function(app) {
+	// Get all friends
+	app.get("/api/friends", function(req, res) {
+	    res.json(friends);
 	});
-}
 
-function findCompatibleFriend(newFriend) {
-	var bestFriend = {
-		"name": "",
-		"photo": ""
-	};
+	// Create New Friend - takes in JSON input
+	app.post("/api/friends", function(req, res) {
+	    // req.body hosts is equal to the JSON post sent from the user
+	    // This works because of our body-parser middleware
+	    var newFriend = req.body;
 
-	var bestDiff = (5 * newFriend.scores.length) + 1;
-	var totalDiff = 0;
+	    console.log("[apiRoutes.js]");
+	    console.log(newFriend);
 
-	for(var i=0; i<friends.length; i++) {
+	    friends.push(newFriend);
+	    makeFriendsFile();
 
-		totalDiff = 0;
+	    res.json(findCompatibleFriend(newFriend));
+	});
 
-		for(var j=0; j<newFriend.scores.length; j++) {
-			totalDiff += Math.abs(newFriend.scores[j] - friends[i].scores[j]);
-		}
+	function makeFriendsFile() {
+		var fileName = __dirname + "/../data/friends.js";
 
-		if(totalDiff < bestDiff) {
-			bestDiff = totalDiff;
-			bestFriend.name = friends[i].name;
-			bestFriend.photo = friends[i].photo;
-		}
+		fs.writeFile(fileName, "var friends = ", function (err) {
+			if (err) throw err;
+			fs.appendFile(fileName, JSON.stringify(friends, null, 4) + ";", function (err) {
+				if (err) throw err;
+				fs.appendFile(fileName, "\n\nmodule.exports = friends;", function (err) {
+					if (err) throw err;
+				});    
+			});
+		});
 	}
 
-	return bestFriend;
+	function findCompatibleFriend(newFriend) {
+		var bestFriend = {
+			"name": "",
+			"photo": ""
+		};
+
+		var bestDiff = (5 * newFriend.scores.length) + 1;
+		var totalDiff = 0;
+
+		for(var i=0; i<friends.length; i++) {
+
+			totalDiff = 0;
+
+			for(var j=0; j<newFriend.scores.length; j++) {
+				console.log(newFriend.scores[j]);
+				console.log("===>" + friends[i].scores[j]);
+				totalDiff += Math.abs(parseInt(newFriend.scores[j]) - parseInt(friends[i].scores[j]));
+			}
+
+			if(totalDiff < bestDiff) {
+				bestDiff = totalDiff;
+				bestFriend.name = friends[i].name;
+				bestFriend.photo = friends[i].photo;
+			}
+		}
+
+		return bestFriend;
+	}
 }
 
