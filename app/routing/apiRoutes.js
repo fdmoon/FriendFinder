@@ -11,30 +11,18 @@ module.exports = function(app) {
 	app.post("/api/friends", function(req, res) {
 	    // req.body hosts is equal to the JSON post sent from the user
 	    // This works because of our body-parser middleware
-	    var newFriend = req.body;
+	    var newFriend = JSON.parse(req.body.data);
 
 	    console.log("[apiRoutes.js]");
 	    console.log(newFriend);
 
+	    var bestFriend = findCompatibleFriend(newFriend);
+
 	    friends.push(newFriend);
 	    makeFriendsFile();
 
-	    res.json(findCompatibleFriend(newFriend));
+	    res.json(bestFriend);
 	});
-
-	function makeFriendsFile() {
-		var fileName = __dirname + "/../data/friends.js";
-
-		fs.writeFile(fileName, "var friends = ", function (err) {
-			if (err) throw err;
-			fs.appendFile(fileName, JSON.stringify(friends, null, 4) + ";", function (err) {
-				if (err) throw err;
-				fs.appendFile(fileName, "\n\nmodule.exports = friends;", function (err) {
-					if (err) throw err;
-				});    
-			});
-		});
-	}
 
 	function findCompatibleFriend(newFriend) {
 		var bestFriend = {
@@ -50,8 +38,6 @@ module.exports = function(app) {
 			totalDiff = 0;
 
 			for(var j=0; j<newFriend.scores.length; j++) {
-				console.log(newFriend.scores[j]);
-				console.log("===>" + friends[i].scores[j]);
 				totalDiff += Math.abs(parseInt(newFriend.scores[j]) - parseInt(friends[i].scores[j]));
 			}
 
@@ -63,6 +49,20 @@ module.exports = function(app) {
 		}
 
 		return bestFriend;
+	}
+
+	function makeFriendsFile() {
+		var fileName = __dirname + "/../data/friends.js";
+
+		fs.writeFile(fileName, "var friends = ", function (err) {
+			if (err) throw err;
+			fs.appendFile(fileName, JSON.stringify(friends, null, 4) + ";", function (err) {
+				if (err) throw err;
+				fs.appendFile(fileName, "\n\nmodule.exports = friends;", function (err) {
+					if (err) throw err;
+				});    
+			});
+		});
 	}
 }
 
