@@ -11,7 +11,7 @@ module.exports = function(app) {
 	app.post("/api/friends", function(req, res) {
 	    // req.body hosts is equal to the JSON post sent from the user
 	    // This works because of our body-parser middleware
-	    var newFriend = JSON.parse(req.body.data);
+	    var newFriend = req.body;
 
 	    console.log("[apiRoutes.js]");
 	    console.log(newFriend);

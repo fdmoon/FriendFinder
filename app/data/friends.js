@@ -1,7 +1,7 @@
 var friends = [
     {
         "name": "Ahmed",
-        "photo": "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+        "photo": "https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$",
         "scores": [
             "5",
             "1",
@@ -64,38 +64,6 @@ var friends = [
         ]
     },
     {
-        "name": "Lou Ritter",
-        "photo": "https://m.facebook.com/photo.php?fbid=10208500699025296&id=1542229019&set=a.1549418665704.77596.1542229019&source=11",
-        "scores": [
-            "4",
-            "3",
-            "4",
-            "1",
-            "5",
-            "2",
-            "5",
-            "3",
-            "1",
-            "4"
-        ]
-    },
-    {
-        "name": "Jordan Biason",
-        "photo": "https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/12741971_10205764267089153_4212986785721953092_n.jpg?oh=4e18265f7d380167223a97fbd7eba278&oe=57B78445",
-        "scores": [
-            "4",
-            "4",
-            "2",
-            "3",
-            "2",
-            "2",
-            "3",
-            "2",
-            "4",
-            "5"
-        ]
-    },
-    {
         "name": "Joe Cool",
         "photo": "https://images.performgroup.com/di/library/goal_es/c1/ce/cristiano-ronaldo-real-madrid-granada-la-liga-ballon-dor_135qp710mgxxd1kmvjs2w0pl8g.jpg?t=2023962713&quality=90&w=1280",
         "scores": [
@@ -124,6 +92,22 @@ var friends = [
             "2",
             "1",
             "4",
+            "4"
+        ]
+    },
+    {
+        "name": "Bruce Lee",
+        "photo": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Bruce_Lee_1973.jpg",
+        "scores": [
+            "3",
+            "4",
+            "5",
+            "3",
+            "1",
+            "4",
+            "4",
+            "3",
+            "5",
             "4"
         ]
     }
